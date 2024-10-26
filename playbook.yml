@@ -1,0 +1,8 @@
+---
+- name: Setup VPN tunnel
+  hosts:
+    - vpn
+  become: true
+  roles:
+    - role: shadowsocks
+    - role: openvpn

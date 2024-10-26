@@ -1,0 +1,89 @@
+---
+- name: Enable ip_forward
+  ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+
+- name: Install openvpn package
+  ansible.builtin.apt:
+    name: openvpn
+    state: present
+    update_cache: true
+
+- name: Make sure override systemd dir exists
+  ansible.builtin.file:
+    name: "/etc/systemd/system/openvpn-{{ openvpn__working_mode }}@.service.d/"
+    state: directory
+    owner: "root"
+    mode: "0755"
+
+- name: Fix error 'unable to fork Resource temporarily unavailable (errno=11)'
+  ansible.builtin.copy:
+    src: override.conf
+    dest: "/etc/systemd/system/openvpn-{{ openvpn__working_mode }}@.service.d/override.conf"
+    owner: "root"
+    mode: "0644"
+  register: fix_applied
+  notify:
+    - Reload systemd
+    - Restart openvpn
+
+- name: Reload systemd immidiately
+  when: fix_applied
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: Be sure openvpn default service is disabled
+  ansible.builtin.systemd:
+    name: openvpn.service
+    state: stopped
+    enabled: false
+
+- name: Create openvpn config files
+  ansible.builtin.template:
+    src: "{{ item.filename }}.j2"
+    dest: "/{{ openvpn__base_dir }}/{{ openvpn__config_name }}-{{ item.filename }}"
+    owner: "root"
+    group: "root"
+    mode: "{{ item.mode }}"
+  loop:
+    - filename: "{{ openvpn__working_mode }}.conf"
+      mode: "0644"
+    - filename: "ca.crt"
+      mode: "0644"
+    - filename: "cert.crt"
+      mode: "0644"
+    - filename: "cert.key"
+      mode: "0600"
+    - filename: "start.sh"
+      mode: "0755"
+    - filename: "stop.sh"
+      mode: "0755"
+    - filename: "dh.pem"
+      mode: "0644"
+  notify:
+    - Restart openvpn
+
+- name: Create ccd
+  when: openvpn__working_mode == "server"
+  block:
+    - name: Create directory
+      ansible.builtin.file:
+        name: "/{{ openvpn__base_dir }}/ccd"
+        state: directory
+        owner: root
+        mode: "0755"
+    - name: Create client configs
+      ansible.builtin.template:
+        src: "ccd.j2"
+        dest: "/{{ openvpn__base_dir }}/ccd/{{ item.name }}"
+        owner: root
+        mode: "0644"
+      loop: "{{ openvpn__client_routes }}"
+      notify: Restart openvpn
+
+- name: Start openvpn service
+  ansible.builtin.systemd:
+    name: "{{ openvpn__service_name }}"
+    state: started
+    enabled: true

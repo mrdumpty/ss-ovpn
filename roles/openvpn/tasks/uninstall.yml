@@ -1,0 +1,17 @@
+---
+- name: Stop and disable openvpn service
+  ansible.builtin.systemd:
+    name: "{{ openvpn__service_name }}"
+    state: stopped
+    enabled: false
+
+- name: Remove openvpn package
+  ansible.builtin.apt:
+    name: openvpn
+    purge: true
+    state: absent
+
+- name: Wipe out config directory
+  ansible.builtin.file:
+    path: "/etc/openvpn"
+    state: absent

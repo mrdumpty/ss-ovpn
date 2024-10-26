@@ -1,0 +1,6 @@
+---
+# handlers file for shadowsocks
+- name: Restart shadowsocks
+  ansible.builtin.systemd:
+    name: "shadowsocks-libev-{{ shadowsocks__type }}@config.service"
+    state: restarted

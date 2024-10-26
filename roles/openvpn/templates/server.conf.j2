@@ -1,0 +1,31 @@
+# {{ ansible_managed }}
+
+server {{ openvpn__server_subnet }}
+local {{ openvpn__server_ip }}
+port {{ openvpn__server_port }}
+proto udp
+dev tun
+ca {{ openvpn__config_name }}-ca.crt
+key {{ openvpn__config_name }}-cert.key
+cert {{ openvpn__config_name }}-cert.crt
+dh {{ openvpn__config_name }}-dh.pem
+topology subnet
+ifconfig-pool-persist /var/log/openvpn/ipp.txt
+client-config-dir ccd
+{% for route in openvpn__client_routes %}
+route {{ route.subnet }}
+{% endfor %}
+keepalive 10 120
+cipher AES-256-CBC
+comp-lzo
+script-security 2
+up {{ openvpn__config_name }}-start.sh
+down {{ openvpn__config_name }}-stop.sh
+user nobody
+group nogroup
+persist-key
+persist-tun
+status /var/log/openvpn/openvpn-status.log
+log-append  /var/log/openvpn/openvpn.log
+verb 3
+explicit-exit-notify 1

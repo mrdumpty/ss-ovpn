@@ -1,0 +1,12 @@
+---
+# defaults file for shadowsocks
+
+shadowsocks__type: server  # or local
+shadowsocks__server: "127.0.0.1"
+shadowsocks__password: password
+shadowsocks__server_port: 8388
+shadowsocks__local_address: "127.0.0.1"  # Only suitable if shadowsocks__type is set to server
+shadowsocks__local_port: 1080
+shadowsocks__mode: tcp_and_udp
+shadowsocks__timeout: 86400
+shadowsocks__method: chacha20-ietf-poly1305

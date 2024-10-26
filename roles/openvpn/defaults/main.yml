@@ -1,0 +1,54 @@
+---
+openvpn__working_mode: client
+openvpn__server_ip: 1.2.3.4
+openvpn__server_port: 1194
+openvpn__config_name: client
+openvpn__socks_proxy_ip: 127.0.0.1
+openvpn__socks_proxy_port: 1080
+openvpn__mss: 1344
+openvpn__start_script: []
+openvpn__stop_script: []
+openvpn__ca: |
+  -----BEGIN PUBLIC KEY-----
+  MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC3kP1mENXolAkdfGV7l8BnSg/4
+  hfQq+rbk0uZuosguVAOhCccIko3bY27X/eswRfUKFfst+gD5VWgf7iQrcTsRKD8H
+  GFaDAjp8eTPLUNuFy1T+XhdQyKy1MpfI7dAT/nAzcZUHZHWMOjugoun8lCq1ndVh
+  QmL6da7eTykgPEXC4QIDAQAB
+  -----END PUBLIC KEY-----
+openvpn__cert_key: |
+  -----BEGIN PRIVATE KEY-----
+  MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBALX7Z40E2Aic2PRD
+  0UJlnb9+M8iR3D3+NUYIlIdiLt4jAXtHS08V4E9fKlGJE2H7CAr3156JDnl6Fp2+
+  tW1cfAVWaPw9p0cc5QLXVf8UGshLrf3WdMKug+Q3WKRFcMEe9SoKoD4In0H2YP+c
+  SzUDUefge+zLtj4EoIkB0eWRxtbBAgMBAAECgYEAj3443H0hS0lB2PlQm6Y8iK4e
+  btx0aX10zFAfrdDBW+8GUAqbWzTItk03tSr82ZlzchKTNjKj8y1Nf/zMWfs+3jIK
+  iLyZCxpECQwJp/ZXx2PUoTZP/xqby49zpLP6fEjukGDcN8Bseh8AiAqAUqJCv5Vf
+  AGd/19+vLRtQ0ECKEDECQQDeCAedadweujr4FVTPFpaw6kN17La/0uXNauSQeufz
+  yMOvQ+rH/gV6Z0ZIN0ZR9Tqg8uJj8U1ocd8beeuxgJ77AkEA0dLStKQvHOzrV4pw
+  cnmdDDChX/NmxloXRDklqTGcg/QtDXErGj7br9H6bZQ2zzew/iZ32vUJLxnkj9us
+  gjKEcwJBAJBcYi8cLC2iYkL5A5peEn5W4qPi0/Om+Rl1fcTe1L9x8qGbJCUCaadr
+  TIwZvFP/gS4ynbXjp7PYDfr8a52Ohk8CQD2oD9aZMGb1j6pnuedJqUZ9u83wPlEn
+  BBM+H7z6IR39UIfUq2/I7NFbiJVOqlR17wKf1zR2ML6wgyNqz+RqZ9UCQEjp3aVj
+  dDKC2VOVWKs6ZEqDBFw8Qg2VB21dKZPd7h9zCSVVfmeUQ4sCT7YR7H8qiTxo8DRy
+  ViRGmNgtr5gNDgo=
+  -----END PRIVATE KEY-----
+openvpn__cert: |
+  -----BEGIN PUBLIC KEY-----
+  MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC1+2eNBNgInNj0Q9FCZZ2/fjPI
+  kdw9/jVGCJSHYi7eIwF7R0tPFeBPXypRiRNh+wgK99eeiQ55ehadvrVtXHwFVmj8
+  PadHHOUC11X/FBrIS6391nTCroPkN1ikRXDBHvUqCqA+CJ9B9mD/nEs1A1Hn4Hvs
+  y7Y+BKCJAdHlkcbWwQIDAQAB
+  -----END PUBLIC KEY-----
+openvpn__dh: |
+  -----BEGIN DH PARAMETERS-----
+  MIIBCAKCAQEAmSOCFrFi3SiY78jpQ6/cWuXYb0cJ6qcEe4Mm3oKQt+ucvYdzAP3r
+  /he7ApfQh9b6M3Y+xlrj5vdMUYYL6kB/c6dkBXGZ5UaRawUz536y7VkE69Lkxo1U
+  MgT6g/T70aiRz4nj3bf1S0UjyF4c3WwmpNtuT+k5p/5hejplQ3WKBHDsxW3xX1KG
+  D9tWcfS4aV3UQ+EYEJO+gpUGlgtOzbjB0ToMzhroKYmXc+yj2/jo7fD8CfjaQKSQ
+  ldndohrT72kWKt1ifN/IvvmDUyKGSai9uvyGHosZFe/IVuBv/N3JVBK8BiMwjkAJ
+  1vpy6+s6W94xY4Jtq3KDADNgwQuokCMRnwIBAg==
+  -----END DH PARAMETERS-----
+openvpn__server_subnet: "172.25.0.0 255.255.255.0"
+openvpn__client_routes:
+  - name: example_client
+    subnet: "192.168.225.0 255.255.255.0"

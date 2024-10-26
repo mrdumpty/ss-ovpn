@@ -1,0 +1,23 @@
+# {{ ansible_managed }}
+
+{{ openvpn__working_mode }}
+
+remote {{ openvpn__server_ip }} {{ openvpn__server_port }}
+remote-cert-tls server
+ca {{ openvpn__config_name }}-ca.crt
+key {{ openvpn__config_name }}-cert.key
+cert {{ openvpn__config_name }}-cert.crt
+dev tun
+proto udp
+comp-lzo
+script-security 2
+up {{ openvpn__config_name }}-start.sh
+down {{ openvpn__config_name }}-stop.sh
+verb 3
+{% if openvpn__mss %}
+mssfix {{ openvpn__mss }}
+{% endif %}
+
+{% if openvpn__socks_proxy_ip %}
+socks-proxy {{ openvpn__socks_proxy_ip }} {{ openvpn__socks_proxy_port }}
+{% endif %}

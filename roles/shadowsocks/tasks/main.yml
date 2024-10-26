@@ -1,0 +1,30 @@
+---
+# tasks file for shadowsocks
+
+- name: Install shadowsocks package
+  ansible.builtin.apt:
+    name: shadowsocks-libev
+    update_cache: true
+
+- name: Be sure default service is disabled
+  ansible.builtin.systemd:
+    name: shadowsocks-libev.service
+    state: stopped
+    enabled: false
+
+- name: Generate config
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "/{{ item }}"
+    mode: "0644"
+    owner: root
+  loop:
+    - etc/shadowsocks-libev/config.json
+  notify:
+    - Restart shadowsocks
+
+- name: Be sure shadowsocks service is started
+  ansible.builtin.systemd:
+    name: "shadowsocks-libev-{{ shadowsocks__type }}@config.service"
+    state: started
+    enabled: true

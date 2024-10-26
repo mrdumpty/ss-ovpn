@@ -1,0 +1,3 @@
+---
+openvpn__base_dir: "/etc/openvpn/{{ openvpn__working_mode }}"
+openvpn__service_name: "openvpn-{{ openvpn__working_mode }}@{{ openvpn__config_name }}-{{ openvpn__working_mode }}.service"

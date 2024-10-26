@@ -1,0 +1,12 @@
+---
+# tasks file for openvpn
+- name: Install openvpn
+  ansible.builtin.import_tasks: install.yml
+  tags:
+    - install
+
+- name: Uninstall openvpn
+  ansible.builtin.import_tasks: uninstall.yml
+  tags:
+    - never
+    - uninstall

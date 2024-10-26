@@ -1,0 +1,12 @@
+{
+    "server":"{{ shadowsocks__server }}",
+    "mode":"{{ shadowsocks__mode }}",
+    "server_port":{{ shadowsocks__server_port }},
+{% if shadowsocks__type == 'local' %}
+    "local_address":"{{ shadowsocks__local_address }}",
+{% endif %}
+    "local_port":{{ shadowsocks__local_port }},
+    "password":"{{ shadowsocks__password }}",
+    "timeout":{{ shadowsocks__timeout }},
+    "method":"{{ shadowsocks__method }}"
+}

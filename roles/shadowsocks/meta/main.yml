@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  namespace: zombiehost
+  role_name: shadowsocks
+  author: Kirill I. Shatalaev
+  description: Install shadowsocks
+  company: zombiehost.net
+  license: WTFPL
+
+  min_ansible_version: "2.1"
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+
+dependencies: []

@@ -1,0 +1,98 @@
+vpn:
+  vars:
+    shadowsocks__server: 1.2.3.4
+    shadowsocks__server_port: 443
+    shadowsocks__password: "{{ lookup('env', 'SHADOWSOCKS_PASSWORD') or 'GEfh5YwsQIsA' }}"
+    openvpn__server_ip: 1.2.3.4
+    openvpn__server_port: 1194
+    openvpn__ca: |
+      -----BEGIN CERTIFICATE-----
+      MIIEGTCCAwGgAwIBAgIBATANBgkqhkiG9w0BAQsFADByMQswCQYDVQQGEwJSVTEP
+      MA0GA1UEBxMGU2FtYXJhMRMwEQYDVQQKEwpab21iaWVIb3N0MRswGQYDVQQDExJa
+      b21iaWVIb3N0IFJvb3QgQ0ExIDAeBgkqhkiG9w0BCQEWEWNhQHpvbWJpZWhvc3Qu
+      bmV0MB4XDTE4MDUxNTAwMDAwMFoXDTI4MDUxNDIzNTk1OVowcjELMAkGA1UEBhMC
+      UlUxDzANBgNVBAcTBlNhbWFyYTETMBEGA1UEChMKWm9tYmllSG9zdDEbMBkGA1UE
+      AxMSWm9tYmllSG9zdCBSb290IENBMSAwHgYJKoZIhvcNAQkBFhFjYUB6b21iaWVo
+      b3N0Lm5ldDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAN5PCyh2dQlI
+      Mp11bgFDvJ5jQIH4TAz82aDXss8b1dbcGJZyBrA3HOJEy6pzqL52BZpjEArXoLHG
+      LNIGXFl7P91xjx8hxiUcHSXAGJACUNjvj9o843AL54EN9V4eLKX/3VnfbdfeKV04
+      9VexM4x3VfAhd4dFY+pIM5cfzbguHHtY4ZNEPdN0rHV2Pr8M/SsjXA6iAeExk5Fa
+      N5r4LgtL2HOyIhfs6EvDDw2Ntrd1HleFhaA5QRtA15zS0z6/79zAc+HFPCTDiDTe
+      /WoLpXAw5dMx7H3ILx+YHPdhbTmXQmoTcqxRtxIQ7eV8u2ieGp/rIANF2+flbKfb
+      4XgDojP53b0CAwEAAaOBuTCBtjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBRE
+      dY2TLXnjAWBjUipr68Upi9Cb2jALBgNVHQ8EBAMCAQYwNgYDVR0fBC8wLTAroCmg
+      J4YlaHR0cDovL2NhLnpvbWJpZWhvc3QubmV0L3ptYmhfY3JsLnBlbTARBglghkgB
+      hvhCAQEEBAMCAAcwLAYJYIZIAYb4QgENBB8WHU9wZW5TU0wgR2VuZXJhdGVkIENl
+      cnRpZmljYXRlMA0GCSqGSIb3DQEBCwUAA4IBAQDHiFuXpweCdKrV8Khm5jTImVjR
+      WEm0hO3bUQz1IW9mZkbRTAOa/HWrabs9MlhNYzQBOeUlNlE0gMNYI9X1FWSyUciJ
+      0LRhyZHQmkULVJfPDKpiRzUeKZJmBPEYVtOA033d5dhIyymWt/AVj5bAchhh/hPY
+      F/Xmr6H33nDMCwltOWMphqMHeHJ/P/+DJskG1C6FTyKF99ZdgpU7z0v39p2xgcyp
+      1jxZGsPGOOZKKOaG+O0jaTs7x5jhBuyNDPBd5lfeKa/JXod1pooOZ3vYnbcIl1n1
+      uxLSLXf4Il9scFBPiZhgkWrlZ0wr7xXB/0t4//059pLDSQClRhaR+gYBtpGC
+      -----END CERTIFICATE-----  
+  hosts:
+    server:
+      ansible_host: 1.2.3.4
+      openvpn__working_mode: server
+      openvpn__config_name: zmbh
+      openvpn__start_script:
+        - iptables -t nat -A POSTROUTING -s 172.25.0.0/24 -j SNAT --to-source 1.2.3.4
+      openvpn__stop_script:
+        - iptables -t nat -D POSTROUTING -s 172.25.0.0/24 -j SNAT --to-source 1.2.3.4
+      openvpn__cert: |
+        -----BEGIN CERTIFICATE-----
+        MIID+DCCAuCgAwIBAgIBAjANBgkqhkiG9w0BAQsFADByMQswCQYDVQQGEwJSVTEP
+        MA0GA1UEBxMGU2FtYXJhMRMwEQYDVQQKEwpab21iaWVIb3N0MRswGQYDVQQDExJa
+        b21iaWVIb3N0IFJvb3QgQ0ExIDAeBgkqhkiG9w0BCQEWEWNhQHpvbWJpZWhvc3Qu
+        bmV0MB4XDTE4MDUxNTEwNTQwMFoXDTI4MDUxMjEwNTQwMFowdzELMAkGA1UEBhMC
+        TkwxEDAOBgNVBAcTB0hhYXJsZW0xEzARBgNVBAoTClpvbWJpZUhvc3QxHjAcBgNV
+        BAMTFXZwbi1ndy56b21iaWVob3N0Lm5ldDEhMB8GCSqGSIb3DQEJARYSdnBuQHpv
+        bWJpZWhvc3QubmV0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAri9c
+        VI8jij2Q4ww+O4dbFFfmcsfZ6LrnzLU4yUS+yGrJ4lKEgxNOlnMajI0GUseqRgBt
+        JFk/WkgBPIZ+2jkhM97DMiFk21IInw0vNHxoeg8PkD4iSreSJiTn1deZge94xNSY
+        re6KYq8l58NO44QWKEh07cYxA1Ynr9b4wDtpXKDf4+1Vqmcnn/njgds7cat0ptl+
+        HRUfvTq29QW44X4msUd0CnUIJbJS7y2Uu8RVW6i2YfpUxqnTg6MCYe2n27Jx67PF
+        JsKt/L0zT/Z1HPHyM9JcN2j0qHaXW1I8Cg75OeseW1hD1SAfdToWfC16A2RnPJxX
+        5w41yXNbD4bTG5e6RwIDAQABo4GTMIGQMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYE
+        FONygV+7hI0b6P9o3oTOJAsEhvm/MAsGA1UdDwQEAwIE8DATBgNVHSUEDDAKBggr
+        BgEFBQcDATARBglghkgBhvhCAQEEBAMCBkAwLAYJYIZIAYb4QgENBB8WHU9wZW5T
+        U0wgR2VuZXJhdGVkIENlcnRpZmljYXRlMA0GCSqGSIb3DQEBCwUAA4IBAQAmocVX
+        9ms97skSOTzPaNkRMnPd90x0iCnq1wE4HZVwC4Y2glQ3n3Uwxkx7zDHkRF3KOe/Z
+        TVDF/UgmdXQES1jRZ4zV3ewOpCe5zyvwbzcvD/KrfQGBLBWtpq328S1dV9YtC5/y
+        4DjFQyUykFObwyCEbLrV+s2gyUj+B/f+heLtLF5BQXYUYuay5i3Thc9GmJqOnn5w
+        cdhR3GOHF488hKJGx42VBdHmPtJ2fVf1/QsxSoGONIjAK2F0G4DJGiQZK4SemHy/
+        MEHyowRbo/PfILtYqx1H3vOwuZJjQosoX2HG85Sp+TqCilot6FCwSxfRaLcacXov
+        04J3lsnDGsRl0LQa
+        -----END CERTIFICATE-----
+      openvpn__cert_key: "{{ lookup('env', 'OPENVPN_SERVER_KEY') or 'RsaKeyHere' }}"
+      openvpn__client_routes: []
+    client:
+      ansible_host: 127.0.0.1
+      shadowsocks__type: local
+      openvpn__config_name: ksh
+      openvpn__cert: |
+        -----BEGIN CERTIFICATE-----
+        MIID7zCCAtegAwIBAgIIQz07TUx5RGgwDQYJKoZIhvcNAQELBQAwcjELMAkGA1UE
+        BhMCUlUxDzANBgNVBAcTBlNhbWFyYTETMBEGA1UEChMKWm9tYmllSG9zdDEbMBkG
+        A1UEAxMSWm9tYmllSG9zdCBSb290IENBMSAwHgYJKoZIhvcNAQkBFhFjYUB6b21i
+        aWVob3N0Lm5ldDAeFw0yMzA1MTYxNzU0MDBaFw0yODA1MTQyMzU5MDBaMGcxCzAJ
+        BgNVBAYTAlJVMQ8wDQYDVQQHEwZTYW1hcmExEzARBgNVBAoTClpvbWJpZUhvc3Qx
+        DzANBgNVBAMTBnByb2V6ZDEhMB8GCSqGSIb3DQEJARYSa3NoQHpvbWJpZWhvc3Qu
+        bmV0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxKfpTUlVNKA1B5J3
+        P0qCXYK1f4SxjUDfIIHLEcTuDInV3XM0aWJG7arMf55dugyjjUkHxFUTcrIcc8SU
+        oyyAPvVbgRH454/0xmLtMAxmKC9fL25dka4c0/RZNYxhdEvsrrrKasC3Qew8MZoS
+        K2+O8iVpntNYH98v7w+TW2ts3CcIKvMxQkUb7rHk+LASqZU2uCnEEhwr/INO2a1H
+        Zo4fWLWG6wuKzkdk2gvV8bgwpEldqMH4qtGs39IKmASix3TuSBKCAzUScTHHWOuS
+        vHs9GVpDqmwTajExkowLHH8+kfaNoIPAuugnxSpf2jWetT9Io5G65PY1p1ruwpHs
+        SgWd5QIDAQABo4GTMIGQMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFL2asGtOIBu1
+        Z/jUj88/idAweIbNMAsGA1UdDwQEAwIEsDATBgNVHSUEDDAKBggrBgEFBQcDAjAR
+        BglghkgBhvhCAQEEBAMCBaAwLAYJYIZIAYb4QgENBB8WHU9wZW5TU0wgR2VuZXJh
+        dGVkIENlcnRpZmljYXRlMA0GCSqGSIb3DQEBCwUAA4IBAQBdlv93piTFbxhJHwnJ
+        pCprKizesy6g0Z9Oy1/A9LMV9UknQFHCDEXnOzAreAiwexG7EW/VhvLT8BMzx/Qe
+        nlCR0aBSYoTpX0K5UkR3SyeT4jNPTvFp+Lt4zQZU2pU8d7uZOxf31tPyeTDDzPhh
+        T5JI8DLRbEr5tmhyn8fnEXk24bP+BN+GLmStwDY6S9/4wHzHgwInLesiNYYadeyT
+        5a0FCHpmhAbWqu8Zt1isoytBcecus6Ze6UE3cFuyrkZWrz12evjcV5LTmeku+Dlb
+        RukZllvGGjo2Rb63d5xZeBuT8sz2lswrt0Xtfi1SEechGuFLQc4yz7eoQAez0PBj
+        /Yj4
+        -----END CERTIFICATE-----
+      openvpn__cert_key: "{{ lookup('env', 'OPENVPN_CLIENT_KEY') or 'RsaKeyHere' }}"
