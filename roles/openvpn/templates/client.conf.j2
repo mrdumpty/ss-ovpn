@@ -8,7 +8,7 @@ ca {{ openvpn__config_name }}-ca.crt
 key {{ openvpn__config_name }}-cert.key
 cert {{ openvpn__config_name }}-cert.crt
 dev tun
-proto udp
+proto {{ openvpn__proto }}
 comp-lzo
 script-security 2
 up {{ openvpn__config_name }}-start.sh

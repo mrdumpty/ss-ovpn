@@ -3,7 +3,7 @@
 server {{ openvpn__server_subnet }}
 local {{ openvpn__server_ip }}
 port {{ openvpn__server_port }}
-proto udp
+proto {{ openvpn__proto }}
 dev tun
 ca {{ openvpn__config_name }}-ca.crt
 key {{ openvpn__config_name }}-cert.key
@@ -28,4 +28,6 @@ persist-tun
 status /var/log/openvpn/openvpn-status.log
 log-append  /var/log/openvpn/openvpn.log
 verb 3
+{% if openvpn__proto == 'udp' %}
 explicit-exit-notify 1
+{% endif %}

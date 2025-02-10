@@ -2,6 +2,7 @@
 openvpn__working_mode: client
 openvpn__server_ip: 1.2.3.4
 openvpn__server_port: 1194
+openvpn__proto: udp
 openvpn__config_name: client
 openvpn__socks_proxy_ip: 127.0.0.1
 openvpn__socks_proxy_port: 1080
